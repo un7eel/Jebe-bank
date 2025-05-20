@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8" />
+    <title>Jebe – Басты бет</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f0f2f5;
+            color: #333;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: rgb(226, 20, 72);
+            color: white;
+            padding: 20px 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            position: relative;
+            flex-wrap: wrap;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        header img {
+            height: 50px;
+            width: auto;
+            border-radius: 10px;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .phone-contact {
+            font-weight: 600;
+            font-size: 18px;
+            background: rgba(255 255 255 / 0.2);
+            padding: 8px 15px;
+            border-radius: 12px;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+            transition: background-color 0.3s ease;
+            cursor: default;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .phone-contact:hover {
+            background-color: rgba(255 255 255 / 0.4);
+        }
+
+        .social-links {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .social-links a img {
+            width: 28px;
+            height: 28px;
+            filter: brightness(1);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-links a:hover img {
+            filter: brightness(0.7);
+            transform: scale(1.1);
+        }
+
+        .profile-menu {
+            position: relative;
+            user-select: none;
+        }
+
+        .profile-btn {
+            background: rgba(255 255 255 / 0.2);
+            border-radius: 12px;
+            padding: 8px 20px;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            cursor: pointer;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .profile-btn:hover {
+            background-color: rgba(255 255 255 / 0.4);
+            transform: scale(1.05);
+        }
+
+        .profile-form-container {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 9px 9px 16px #d1d9e6, -9px -9px 16px #ffffff;
+            width: 320px;
+            display: none;
+            z-index: 10;
+        }
+
+        .profile-form-container.active {
+            display: block;
+        }
+
+        .profile-form-container h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+            font-size: 20px;
+        }
+
+        label {
+            margin-top: 10px;
+            display: block;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            background: #f1f4f8;
+            box-shadow: inset 2px 2px 5px #ccc, inset -2px -2px 5px #fff;
+            font-size: 16px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgb(226, 20, 72);
+            background: #fff;
+        }
+
+        .profile-form-container button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background-color: rgb(226, 20, 72);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .profile-form-container button:hover {
+            background-color: #43a047;
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 10px;
+            color: #333;
+            min-height: 24px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .main-container {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: auto;
+            flex-grow: 1;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards;
+            animation-delay: 0.1s;
+        }
+
+        .intro h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: rgb(226, 20, 72);
+        }
+
+        .intro p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .calculator-container,
+        .feedback-container,
+        .services-container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 9px 9px 16px #d1d9e6, -9px -9px 16px #ffffff;
+            max-width: 500px;
+            margin: 30px auto;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        .calculator-container {
+            animation-delay: 0.3s;
+        }
+
+        .feedback-container {
+            animation-delay: 0.5s;
+        }
+
+        .services-container {
+            animation-delay: 0.7s;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label,
+        textarea,
+        input,
+        select {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            background: #f1f4f8;
+            box-shadow: inset 2px 2px 5px #ccc, inset -2px -2px 5px #fff;
+            font-size: 16px;
+            resize: vertical;
+            transition: box-shadow 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            box-shadow: 0 0 8px rgb(226, 20, 72);
+            background: #fff;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            background: #f1f4f8;
+            box-shadow: inset 2px 2px 5px #ccc, inset -2px -2px 5px #fff;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            background-color: rgb(226, 20, 72);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #43a047;
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: inset 2px 2px 5px #ddd, inset -2px -2px 5px #fff;
+            color: #333;
+            min-height: 50px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px 10px;
+            background: #e0e0e0;
+            font-size: 14px;
+            color: #555;
+            border-top: 1px solid #ccc;
+            user-select: none;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="logo-container">
+        <img src="https://i.ibb.co/NFZ1Gjk/logo-jebe.png" alt="Jebe Logo" />
+        <h1>Jebe</h1>
+    </div>
+
+    <div class="header-right">
+        <div class="phone-contact">Телефон: +7 777 707 0770</div>
+        <div class="social-links">
+            <a href="https://wa.me/77777070770" target="_blank" aria-label="WhatsApp" rel="noopener noreferrer">
+                <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" />
+            </a>
+            <a href="https://instagram.com/yourprofile" target="_blank" aria-label="Instagram" rel="noopener noreferrer">
+                <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" />
+            </a>
+            <a href="https://www.tiktok.com/@yourprofile" target="_blank" aria-label="TikTok" rel="noopener noreferrer">
+                <img src="https://cdn-icons-png.flaticon.com/512/3046/3046123.png" alt="TikTok" />
+            </a>
+        </div>
+        <div class="profile-menu">
+            <div class="profile-btn" id="profileBtn">Настройка профиля ▼</div>
+            <div class="profile-form-container" id="profileForm">
+                <h3>Настройка профиля</h3>
+                <form id="profileSettingsForm">
+                    <label for="userName">Имя:</label>
+                    <input type="text" id="userName" name="userName" placeholder="Введите имя" />
+
+                    <label for="userPhone">Телефон:</label>
+                    <input type="tel" id="userPhone" name="userPhone" placeholder="+7 (___) ___-__-__" />
+
+                    <label for="userEmail">Email:</label>
+                    <input type="email" id="userEmail" name="userEmail" placeholder="example@mail.com" />
+
+                    <button type="submit">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="main-container">
+    <section class="intro">
+        <h2>Добро пожаловать в Jebe</h2>
+        <p>Банк будущего — быстрые услуги и удобные решения для вас!</p>
+    </section>
+
+    <section class="calculator-container">
+        <h3>Кредитный калькулятор</h3>
+        <form id="loanForm">
+            <label for="loanAmount">Сумма кредита (₸):</label>
+            <input type="number" id="loanAmount" name="loanAmount" placeholder="Введите сумму" min="10000" required />
+
+            <label for="interestRate">Процентная ставка (% годовых):</label>
+            <input type="number" id="interestRate" name="interestRate" placeholder="Введите ставку" step="0.01" min="0" max="100" required />
+
+            <label for="loanTerm">Срок кредита (месяцев):</label>
+            <input type="number" id="loanTerm" name="loanTerm" placeholder="Введите срок" min="1" required />
+
+            <button type="submit">Рассчитать</button>
+        </form>
+        <div class="result" id="loanResult"></div>
+    </section>
+
+    <section class="services-container">
+        <h3>Услуги банка</h3>
+        <p>Оформите банковскую карту быстро и удобно.</p>
+        <button id="orderCardBtn">Заказать карту</button>
+        <div id="cardOrderMessage" style="margin-top:15px; font-weight:600; color:#43a047;"></div>
+    </section>
+
+    <section class="feedback-container">
+        <h3>Отзывы клиентов</h3>
+        <form id="feedbackForm">
+            <label for="userNameFb">Имя:</label>
+            <input type="text" id="userNameFb" name="userNameFb" placeholder="Введите имя" required />
+
+            <label for="userFeedback">Отзыв:</label>
+            <textarea id="userFeedback" name="userFeedback" rows="4" placeholder="Ваш отзыв" required></textarea>
+
+            <button type="submit">Отправить</button>
+        </form>
+        <div class="result" id="feedbackResult"></div>
+    </section>
+</div>
+
+<footer>
+    &copy; 2025 Jebe. Все права защищены.
+</footer>
+
+<script>
+
+    const profileBtn = document.getElementById('profileBtn');
+    const profileForm = document.getElementById('profileForm');
+    profileBtn.addEventListener('click', () => {
+        profileForm.classList.toggle('active');
+    });
+
+
+    document.getElementById('profileSettingsForm').addEventListener('submit', e => {
+        e.preventDefault();
+        alert('Профиль сохранён!');
+        profileForm.classList.remove('active');
+    });
+
+
+    document.getElementById('loanForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const amount = parseFloat(document.getElementById('loanAmount').value);
+        const rate = parseFloat(document.getElementById('interestRate').value);
+        const term = parseInt(document.getElementById('loanTerm').value);
+
+        if (amount <= 0 || rate < 0 || term <= 0) {
+            alert('Пожалуйста, введите корректные значения');
+            return;
+        }
+
+
+        const monthlyRate = rate / 100 / 12;
+        const payment = (amount * monthlyRate) / (1 - Math.pow(1 + monthlyRate, -term));
+        const total = payment * term;
+
+        document.getElementById('loanResult').innerHTML = `
+            Ежемесячный платёж: <strong>${payment.toFixed(2)} ₸</strong><br>
+            Общая сумма к возврату: <strong>${total.toFixed(2)} ₸</strong>
+        `;
+    });
+
+    const orderCardBtn = document.getElementById('orderCardBtn');
+    const cardOrderMessage = document.getElementById('cardOrderMessage');
+    orderCardBtn.addEventListener('click', () => {
+        cardOrderMessage.textContent = 'Спасибо за заказ карты! Наш менеджер свяжется с вами в ближайшее время.';
+        orderCardBtn.disabled = true;
+        orderCardBtn.style.backgroundColor = '#888';
+    });
+
+    document.getElementById('feedbackForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const name = document.getElementById('userNameFb').value.trim();
+        const feedback = document.getElementById('userFeedback').value.trim();
+
+        if (!name || !feedback) {
+            alert('Пожалуйста, заполните все поля.');
+            return;
+        }
+
+        document.getElementById('feedbackResult').textContent = `Спасибо за ваш отзыв, ${name}!`;
+        e.target.reset();
+    });
+</script>
+</body>
+</html>
